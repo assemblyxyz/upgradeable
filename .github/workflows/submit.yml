@@ -1,0 +1,17 @@
+on: [push]
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/github-script@v6
+          name: ArchonSubmit
+          with:
+            github-token: ${{ secrets.PAT_TOKEN }}
+            script: |
+              await github.rest.actions.createWorkflowDispatch({
+                owner: 'assemblyxyz',
+                repo: 'core',
+                workflow_id: 'archon_push.yml',
+                ref: 'master'
+              })
+              console.log(result)
